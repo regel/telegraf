@@ -8,6 +8,7 @@ Protocol or in JSON format.
 - [InfluxDB Line Protocol](/plugins/parsers/influx)
 - [Collectd](/plugins/parsers/collectd)
 - [CSV](/plugins/parsers/csv)
+- [Radius](/plugins/parsers/radius)
 - [Dropwizard](/plugins/parsers/dropwizard)
 - [Graphite](/plugins/parsers/graphite)
 - [Grok](/plugins/parsers/grok)
