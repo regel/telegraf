@@ -1324,6 +1324,30 @@ func getParserConfig(name string, tbl *ast.Table) (*parsers.Config, error) {
 		}
 	}
 
+	if node, ok := tbl.Fields["radius_time_key"]; ok {
+		if kv, ok := node.(*ast.KeyValue); ok {
+			if str, ok := kv.Value.(*ast.String); ok {
+				c.RadiusTimeKey = str.Value
+			}
+		}
+	}
+
+	if node, ok := tbl.Fields["radius_time_format"]; ok {
+		if kv, ok := node.(*ast.KeyValue); ok {
+			if str, ok := kv.Value.(*ast.String); ok {
+				c.RadiusTimeFormat = str.Value
+			}
+		}
+	}
+
+	if node, ok := tbl.Fields["radius_measurement_name"]; ok {
+		if kv, ok := node.(*ast.KeyValue); ok {
+			if str, ok := kv.Value.(*ast.String); ok {
+				c.RadiusMeasurementName = str.Value
+			}
+		}
+	}
+
 	if node, ok := tbl.Fields["data_type"]; ok {
 		if kv, ok := node.(*ast.KeyValue); ok {
 			if str, ok := kv.Value.(*ast.String); ok {
@@ -1587,6 +1611,9 @@ func getParserConfig(name string, tbl *ast.Table) (*parsers.Config, error) {
 	delete(tbl.Fields, "json_string_fields")
 	delete(tbl.Fields, "json_time_format")
 	delete(tbl.Fields, "json_time_key")
+	delete(tbl.Fields, "radius_measurement_name")
+	delete(tbl.Fields, "radius_time_format")
+	delete(tbl.Fields, "radius_time_key")
 	delete(tbl.Fields, "data_type")
 	delete(tbl.Fields, "collectd_auth_file")
 	delete(tbl.Fields, "collectd_security_level")

@@ -15,6 +15,7 @@ import (
 	"github.com/influxdata/telegraf/plugins/parsers/json"
 	"github.com/influxdata/telegraf/plugins/parsers/logfmt"
 	"github.com/influxdata/telegraf/plugins/parsers/nagios"
+	"github.com/influxdata/telegraf/plugins/parsers/radius"
 	"github.com/influxdata/telegraf/plugins/parsers/value"
 	"github.com/influxdata/telegraf/plugins/parsers/wavefront"
 )
@@ -85,6 +86,15 @@ type Config struct {
 
 	// time format
 	JSONTimeFormat string
+
+	// key of time
+	RadiusTimeKey string
+
+	// time format
+	RadiusTimeFormat string
+
+	// measurement name
+	RadiusMeasurementName string
 
 	// Authentication file for collectd
 	CollectdAuthFile string
@@ -160,6 +170,14 @@ func NewParser(config *Config) (Parser, error) {
 		parser, err = NewInfluxParser()
 	case "nagios":
 		parser, err = NewNagiosParser()
+	case "radius":
+		parser, err = NewRadiusParser(config.MetricName,
+			config.RadiusMeasurementName,
+			config.TagKeys,
+			config.RadiusTimeKey,
+			config.RadiusTimeFormat,
+			config.DefaultTags)
+
 	case "graphite":
 		parser, err = NewGraphiteParser(config.Separator,
 			config.Templates, config.DefaultTags)
@@ -317,6 +335,25 @@ func NewJSONParser(
 
 func NewNagiosParser() (Parser, error) {
 	return &nagios.NagiosParser{}, nil
+}
+
+func NewRadiusParser(
+	metricName string,
+	measurementName string,
+	tagKeys []string,
+	timeKey string,
+	timeFormat string,
+	defaultTags map[string]string) (Parser, error) {
+	parser := &radius.RadiusParser{
+		MetricName:      metricName,
+		MeasurementName: measurementName,
+		TimestampColumn: timeKey,
+		TimestampFormat: timeFormat,
+		TagKeys:         tagKeys,
+		DefaultTags:     defaultTags,
+		TimeFunc:        time.Now,
+	}
+	return parser, nil
 }
 
 func NewInfluxParser() (Parser, error) {
