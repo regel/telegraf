@@ -50,6 +50,9 @@ of the field is automatically determined based on the contents of the value.
 
 Config:
 ```
+[global_tags]
+  interco = "orange"
+
 [[inputs.tail]]
   files = ["example"]
   from_beginning = false
