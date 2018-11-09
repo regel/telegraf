@@ -12,6 +12,7 @@ accounting events.
   from_beginning = false
   ## Whether file is a named pipe
   pipe = false
+  fieldpass = ["Acct-*", "*-Station-Id"]
 
   ## Method used to watch for file updates.  Can be either "inotify" or "poll".
   # watch_method = "inotify"
@@ -53,6 +54,7 @@ Config:
   files = ["example"]
   from_beginning = false
   pipe = false
+  fieldpass = ["Acct-*", "*-Station-Id"]
   data_format = "radius"
   radius_time_format = "Mon Jan 2 15:04:05 2006"
   radius_time_key = "Timestamp"
